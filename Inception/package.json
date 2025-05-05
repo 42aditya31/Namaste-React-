@@ -1,0 +1,30 @@
+{
+  "name": "inception",
+  "version": "1.0.0",
+  "description": "React course by Akshay Saini ",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/42aditya31/Namaste-React-.git#main"
+  },
+  "keywords": [
+    "react",
+    "react",
+    "js",
+    "akshay",
+    "saini",
+    "course"
+  ],
+  "author": "Aditya Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/42aditya31/Namaste-React-/issues"
+  },
+  "homepage": "https://github.com/42aditya31/Namaste-React-/tree/main#readme",
+  "devDependencies": {
+    "parcel": "^2.14.4"
+  }
+}
