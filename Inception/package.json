@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "React course by Akshay Saini ",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,8 @@
   },
   "homepage": "https://github.com/42aditya31/Namaste-React-/tree/main#readme",
   "devDependencies": {
+    "@babel/core": "^7.27.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "parcel": "^2.14.4"
   },
   "dependencies": {

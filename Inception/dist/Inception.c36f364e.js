@@ -21,7 +21,8 @@
 for that you can pass an array as a third elemnt of the Createelement 
 
 
-*/ const parent = React.createElement("div", {
+*/ // The main behind the sence of the making the Component is the below 
+const parent = React.createElement("div", {
     id: "parent"
 }, React.createElement("div", {
     id: "child"
@@ -36,5 +37,12 @@ const heading = React.createElement("h1", {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 // root.render(heading);
 root.render(parent); // object
+// But In the production build project we can use that but it's mess up the things!! That's why we will use the Component 
+const HeaderComponent = ()=>{
+    return div;
+};
+_c = HeaderComponent;
+var _c;
+$RefreshReg$(_c, "HeaderComponent");
 
 //# sourceMappingURL=Inception.c36f364e.js.map
