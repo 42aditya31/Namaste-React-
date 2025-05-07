@@ -1,49 +1,72 @@
-import { useState } from "react";
-import { CiSearch } from "react-icons/ci";
+import { useState, useEffect } from "react";
 import RestaurantCard from "./RestaurantCard";
-import resList from "../utils/mockData";
+import Shimmer from "./Shimmer";
+import {
+  SWIGGY_API_URL,
+  SWIGGY_REST_API_PATH,
+} from "../../../../../../../../public/common/constants";
 
 const Body = () => {
-  // State Variable - useState Hook is used to create a state variable to store data and a function to update it.
-  let [restaurantList, setRestaurantList] = useState(resList);
-  let [showButton, setShowButton] = useState(true);
+  const [restaurantList, setRestaurantList] = useState([]);
+  const [searchRestaurant, setSearchRestaurant] = useState("");
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [restaurantName, setRestaurantName] = useState("");
 
-  // Function to update the restaurant list based on the rating.
-  const filterRestaurantList = () => {  
-    const filteredRestaurant = restaurantList.filter(
-      (res) => res.info.avgRating > 4.3
-    );
+  const fetchData = async () => {
+    try {
+      const data = await fetch(SWIGGY_API_URL);
+      const json = await data.json();
+      const restaurants = eval("json?." + SWIGGY_REST_API_PATH) || [];
 
-    setRestaurantList(filteredRestaurant);
-    setShowButton(false);
+      setRestaurantList(restaurants);
+      setFilteredRestaurants(restaurants);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  return (
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleSearch = () => {
+    const filtered = restaurantList.filter((res) =>
+      res.info.name.toLowerCase().includes(searchRestaurant.toLowerCase())
+    );
+
+    setFilteredRestaurants(filtered);
+    setSearchRestaurant(""); // Clear the search input box after search
+    setRestaurantName(searchRestaurant);
+  };
+
+  // Conditional rendering using ternary operator
+  return restaurantList.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
       <div className="search-box">
-        <input placeholder="search a restaurant you want..." />
-        <CiSearch className="search-icon" />
+        <input
+          type="text"
+          value={searchRestaurant}
+          onChange={(e) => setSearchRestaurant(e.target.value)}
+          placeholder="search a restaurant you want..."
+        />
+        <button className="search" onClick={handleSearch}>
+          Search
+        </button>
       </div>
-      <div className="filter">
-        {
-          // Conditional Rendering - If the showButton is true, then the button will be displayed.
-          showButton && (
-            <button
-              className="filter-btn"
-              onClick={filterRestaurantList}
-            >
-              Top Rated Restaurants
-            </button>
-          )
-        }
-      </div>
+
       <div className="restaurant-container">
-        {restaurantList.map((restaurant) => (
-          <RestaurantCard
-            key={restaurant.info.id}
-            restaurantData={restaurant}
-          />
-        ))}
+        {filteredRestaurants.length !== 0 ? (
+          filteredRestaurants.map((restaurant) => (
+            <RestaurantCard
+              key={restaurant?.info?.id}
+              {...restaurant?.info}
+            />
+          ))
+        ) : (
+          <h2>Sorry, we couldn't find any restaurant for "{restaurantName}"</h2>
+        )}
       </div>
     </div>
   );
